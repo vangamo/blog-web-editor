@@ -33,4 +33,111 @@ body {
   container: page / inline-size;
 }
 
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+  'title'
+  'settings'
+  'editor';
+  gap: 1rem;
+}
 
+.content .formtitle {
+  grid-area: title;
+}
+
+.content .editor {
+  grid-area: editor;
+}
+
+.content .settings {
+  grid-area: settings;
+}
+
+/* @container page (900px <= width <= 1400px) { */
+/*@container page (min-width: 900px) { */
+@container page ( 900px <= width < 1400px ) {
+  .content {
+    grid-template-columns: 1fr 160px;
+    grid-template-areas:
+    'title title'
+    'editor settings';
+  }
+}
+
+/*@container page ( min-width: 1400px ) { /* No func */
+@container page ( 1400px <= width ) {
+  .content {
+    grid-template-columns: 300px 1fr ;
+    grid-template-areas:
+    'title title'
+    'settings editor';
+  }
+}
+
+@media screen and (900px <= width <= 1400px) {
+  .content {
+    grid-template-columns: 1fr 160px;
+    grid-template-areas:
+    'title title'
+    'editor settings';
+  }
+}
+
+@media screen and (1400px <= width) {
+  .content {
+    grid-template-columns: 300px 1fr ;
+    grid-template-areas:
+    'title title'
+    'settings editor';
+  }
+}
+
+.formtitle {
+  display: grid;
+  justify-items: start;
+  align-items: baseline;
+  grid-template-areas:
+    'path path'
+    'title save'
+    'new undo';
+  gap: .5rem;
+}
+
+.formtitle__path {
+  grid-area: path;
+}
+.formtitle__btn--new {
+  grid-area: new;
+}
+.formtitle__text {
+  grid-area: title;
+  justify-self: stretch;
+}
+.formtitle__btn--save {
+  grid-area: save;
+  justify-self: stretch;
+}
+.formtitle__btn--undo {
+  grid-area: undo;
+  justify-self: stretch;
+}
+
+@media screen and (900px <= width) {
+  .formtitle {
+    grid-template-columns: 1fr 160px;
+    grid-template-areas:
+      'path new'
+      'title save'
+      '_ undo';
+      gap: .25em .5rem;
+  }
+  .formtitle__btn--new {
+    justify-self: stretch;
+  }
+}
+
+.icon {
+  width: 1em;
+}
