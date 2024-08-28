@@ -1,6 +1,6 @@
 function Editor() {
   return (
-    <textarea className="editor md:-translate-y-20">Markdown content</textarea>
+    <textarea className="editor tablet:-translate-y-20">Markdown content</textarea>
   );
 }
 

@@ -7,6 +7,7 @@
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
+  font-size: 1rem;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -14,17 +15,8 @@
   color-scheme: light dark;
 }
 
-.page {
-  margin-top: 20px;
-}
 
 .central {
-  max-width: 920px;
-  min-width: 360px;
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: 10px;
-
   container: page / inline-size;
 }
 

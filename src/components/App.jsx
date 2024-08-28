@@ -40,23 +40,21 @@ function App() {
   };
 
   return (
-    <div className="page central">
-      <div className="content">
-        {/* form.formtitle */}
-        <TitleForm
-          slug={postData.slug}
-          onChange={handleChangePostData}
-          onClickSave={handleSave}
-          onClicknUndo={handleClickUndo}
-          onClickNew={handleClickNew}
-        />
+    <div className="central content w-full min-w-96 max-w-5xl mt-5 mx-auto px-3">
+      {/* form.formtitle */}
+      <TitleForm
+        slug={postData.slug}
+        onChange={handleChangePostData}
+        onClickSave={handleSave}
+        onClicknUndo={handleClickUndo}
+        onClickNew={handleClickNew}
+      />
 
-        {/* form.settings */}
-        <MetaForm metadata={postData} onChange={handleChangePostData} />
+      {/* form.settings */}
+      <MetaForm metadata={postData} onChange={handleChangePostData} />
 
-        {/* .editor */}
-        <Editor />
-      </div>
+      {/* .editor */}
+      <Editor />
     </div>
   );
 }
