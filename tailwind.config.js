@@ -4,6 +4,9 @@ export default {
     './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
+    screens: {
+      'tablet': '900px'
+    },
     extend: {},
   },
   plugins: [],
