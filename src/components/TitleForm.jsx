@@ -5,7 +5,7 @@ function TitleForm({slug, onChange, onClickSave, onClicknUndo, onClickNew}) {
 
   return (
     <form className="formtitle" onSubmit={onClickSave}>
-      <div className="formtitle__path">
+      <div className="formtitle__path px-2 text-xs text-gray-500 dark:text-gray-400 translate-y-1">
         Knowledge/Better-programmer
         <button
           type="button"
@@ -21,20 +21,20 @@ function TitleForm({slug, onChange, onClickSave, onClicknUndo, onClickNew}) {
           </svg>
         </button>
       </div>
-      <button type="button" className="formtitle__btn--new" onClick={onClickNew}>
+      <button type="button" className="formtitle__btn--new focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-green-800" onClick={onClickNew}>
         New
       </button>
       <input
-        className="formtitle__text"
-        type="text"
+        type="text" 
+        className="formtitle__text container mx-auto px-5 py-2 text-lg border rounded"
         placeholder="Slug of the new page"
         value={slug}
         onInput={(ev) => handleChangeSlug(ev.currentTarget.value)}
       />
-      <button type="submit" className="formtitle__btn--save">
+      <button type="submit" className="formtitle__btn--save focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
         Save
       </button>
-      <button type="button" className="formtitle__btn--undo" onClick={onClicknUndo}>
+      <button type="button" className="formtitle__btn--undo focus:outline-none text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-green-800" onClick={onClicknUndo}>
         Undo
       </button>
     </form>

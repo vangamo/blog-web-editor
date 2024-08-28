@@ -92,7 +92,7 @@
 .formtitle {
   display: grid;
   justify-items: start;
-  align-items: baseline;
+  align-items: center;
   grid-template-areas:
     'path path'
     'title save'
@@ -123,9 +123,10 @@
   .formtitle {
     grid-template-columns: 1fr 160px;
     grid-template-areas:
-      'path new'
+      'path path'
       'title save'
-      '_ undo';
+      '_ undo'
+      '_ new';
       gap: .25em .5rem;
   }
   .formtitle__btn--new {
