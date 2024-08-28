@@ -52,7 +52,7 @@ function App() {
         />
 
         {/* form.settings */}
-        <MetaForm onChange={handleChangePostData} />
+        <MetaForm metadata={postData} onChange={handleChangePostData} />
 
         {/* .editor */}
         <Editor />
