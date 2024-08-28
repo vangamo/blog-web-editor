@@ -17,14 +17,15 @@ function App() {
         <form className="formtitle" onSubmit={handleSave}>
           <div className="formtitle__path">
             Knowledge/Better-programmer
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="icon"
-            >
-              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-            </svg>
+            <button type="button" className="icon inline mx-2 size-3 cursor-pointer" title="Change tha path of the post">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+              </svg>
+            </button>
           </div>
           <button type="button" className="formtitle__btn--new">
             Nuevo

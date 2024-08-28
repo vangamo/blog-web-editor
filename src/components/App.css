@@ -1,11 +1,6 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -136,8 +131,4 @@ body {
   .formtitle__btn--new {
     justify-self: stretch;
   }
-}
-
-.icon {
-  width: 1em;
 }
