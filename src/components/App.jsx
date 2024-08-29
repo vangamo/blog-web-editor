@@ -8,7 +8,7 @@ import ModalDialog from "./ModalDialog";
 const getPostMeta = () => {
   return {
     slug: "",
-    path: "",
+    path: "knowledge/better-programmer",
     author: "",
     tags: "",
     itinerary: "",
@@ -21,11 +21,48 @@ function App() {
   const [originalContent, setOriginalContent] = useState("");
   const [content, setContent] = useState("Markdown content");
 
-  const handleSave = (ev) => {
+  const handleSave = async (ev) => {
     ev.preventDefault();
 
     // Fetch PUT with data
     console.log({ credentials, postData, content });
+
+    const selectedCategory = postData.path;
+
+    const markdown = `
+author:"${postData.author}"
+tags:"${postData.tags}"
+itinerary:"${postData.itinerary}"
+
+---
+
+${content}
+`;
+
+    const serverUrl = `https://api.github.com/repos/${credentials.user}/${credentials.repo}/contents/${selectedCategory}/${postData.slug}.md`;
+
+    const data = await fetch(
+      serverUrl,
+      {
+        method: 'PUT',
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${credentials.token}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Testing to fetch content',
+          committer: {
+            name: 'I. vanGamo',
+            email: 'vangamo.beta@gmail.com',
+          },
+          content: btoa(markdown)
+        })
+      }
+    ).then((response) => response.json());
+
+    console.log(data);
   };
 
   const handleChangePostData = (metaProp, metaValue) => {
