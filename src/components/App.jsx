@@ -3,7 +3,7 @@ import "./App.css";
 import TitleForm from "./TitleForm";
 import MetaForm from "./MetaForm";
 import Editor from "./Editor";
-import ModalDialog from "./ModalDialog";
+import LoginDialog from "./LoginDialog";
 
 const getPostMeta = () => {
   return {
@@ -41,26 +41,23 @@ ${content}
 
     const serverUrl = `https://api.github.com/repos/${credentials.user}/${credentials.repo}/contents/${selectedCategory}/${postData.slug}.md`;
 
-    const data = await fetch(
-      serverUrl,
-      {
-        method: 'PUT',
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${credentials.token}`,
-          "X-GitHub-Api-Version": "2022-11-28",
-          'Content-Type': 'application/json'
+    const data = await fetch(serverUrl, {
+      method: "PUT",
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${credentials.token}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "Testing to fetch content",
+        committer: {
+          name: "I. vanGamo",
+          email: "vangamo.beta@gmail.com",
         },
-        body: JSON.stringify({
-          message: 'Testing to fetch content',
-          committer: {
-            name: 'I. vanGamo',
-            email: 'vangamo.beta@gmail.com',
-          },
-          content: btoa(markdown)
-        })
-      }
-    ).then((response) => response.json());
+        content: btoa(markdown),
+      }),
+    }).then((response) => response.json());
 
     console.log(data);
   };
@@ -106,7 +103,7 @@ ${content}
       urlRepo = urlRepo.replace("http://", "https://");
     }
 
-    const [protocol, _, domain, user, repo] = urlRepo.split('/');
+    const [protocol, _, domain, user, repo] = urlRepo.split("/");
 
     setCredentials({
       user: user,
@@ -122,9 +119,8 @@ ${content}
   return (
     <>
       {!credentials && (
-        <ModalDialog
+        <LoginDialog
           isShown={credentials !== false}
-          title="Login"
           onSubmit={handleSubmitLogin}
           onCancel={handleCancelLogin}
         />
