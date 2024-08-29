@@ -50,16 +50,18 @@
     grid-template-areas:
     'title title'
     'editor settings';
+    gap: 1rem .5rem;
   }
 }
 
 /*@container page ( min-width: 1400px ) { /* No func */
 @container page ( 1400px <= width ) {
   .content {
-    grid-template-columns: 300px 1fr ;
+    max-width: 96rem;
+    grid-template-columns: 15rem 1fr 9.5rem;
     grid-template-areas:
-    'title title'
-    'settings editor';
+    '_ title title'
+    'settings editor __';
   }
 }
 
@@ -69,15 +71,17 @@
     grid-template-areas:
     'title title'
     'editor settings';
+    gap: 1rem .5rem;
   }
 }
 
 @media screen and (1400px <= width) {
   .content {
-    grid-template-columns: 300px 1fr ;
+    max-width: 96rem;
+    grid-template-columns: 15rem 1fr 9.5rem;
     grid-template-areas:
-    'title title'
-    'settings editor';
+    '_ title title'
+    'settings editor __';
   }
 }
 
