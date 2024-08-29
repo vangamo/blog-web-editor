@@ -1,0 +1,17 @@
+/* EDITOR */
+
+.mdxeditor-toolbar {
+  flex-wrap: wrap;
+}
+
+.editor:has(:active) {
+  border: solid 5ps red;
+}
+
+@media (prefers-color-scheme: dark) {
+  .editor {
+    --baseTextContrast: #f8f9fa;
+    --basePageBg: #111418;
+    --baseBg: #f8f9fa22;
+  }
+}
