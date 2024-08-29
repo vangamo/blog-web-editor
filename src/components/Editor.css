@@ -1,5 +1,23 @@
 /* EDITOR */
 
+.editor {
+  min-height: min-content;
+}
+
+.editor .mdxeditor-root-contenteditable {
+  min-height: calc( 100% - 4rem );
+}
+
+@media screen and (900px <= width) {
+  .editor {
+    translate: 0 -6rem;
+  }
+
+  .editor .mdxeditor-root-contenteditable {
+    min-height: calc( 100% + 4rem );
+  }
+}
+
 .mdxeditor-toolbar {
   flex-wrap: wrap;
 }

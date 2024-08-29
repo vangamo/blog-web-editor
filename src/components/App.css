@@ -21,6 +21,9 @@
 }
 
 .content {
+  min-height: calc(100dvh - 2.5rem);
+  grid-template-rows: min-content min-content 1fr;
+
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas:
@@ -47,6 +50,7 @@
 @container page ( 900px <= width < 1400px ) {
   .content {
     grid-template-columns: 1fr 160px;
+    grid-template-rows: min-content 1fr;
     grid-template-areas:
     'title title'
     'editor settings';
@@ -59,6 +63,7 @@
   .content {
     max-width: 96rem;
     grid-template-columns: 15rem 1fr 9.5rem;
+    grid-template-rows: min-content 1fr;
     grid-template-areas:
     '_ title title'
     'settings editor __';
@@ -68,6 +73,7 @@
 @media screen and (900px <= width <= 1400px) {
   .content {
     grid-template-columns: 1fr 160px;
+    grid-template-rows: min-content 1fr;
     grid-template-areas:
     'title title'
     'editor settings';
@@ -79,6 +85,7 @@
   .content {
     max-width: 96rem;
     grid-template-columns: 15rem 1fr 9.5rem;
+    grid-template-rows: min-content 1fr;
     grid-template-areas:
     '_ title title'
     'settings editor __';

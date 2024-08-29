@@ -32,7 +32,7 @@ function Editor({content, onChange}) {
 
   return (
     <MDXEditor
-      className="editor tablet:-translate-y-24"
+      className="editor"
       /* ref={ref} */
       markdown={content}
       onChange={handleChange}

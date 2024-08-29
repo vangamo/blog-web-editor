@@ -92,7 +92,7 @@ function App() {
           onCancel={handleCancelLogin}
         />
       )}
-      <div className="central content w-full min-w-96 max-w-screen-2xl mt-5 mx-auto px-3">
+      <div className="central content w-full min-w-96 max-w-screen-2xl my-5 mx-auto px-3">
         {/* form.formtitle */}
         <TitleForm
           slug={postData.slug}
