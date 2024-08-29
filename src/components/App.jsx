@@ -17,11 +17,14 @@ const getPostMeta = () => {
 function App() {
   const [postData, setPostData] = useState( getPostMeta() );
   const [originalContent, setOriginalContent] = useState("");
+  const [content, setContent] = useState("Markdown content");
 
   const handleSave = (ev) => {
     ev.preventDefault();
 
     // Fetch PUT with data
+    console.log({postData, content});
+    
   };
 
   const handleChangePostData = (metaProp, metaValue) => {
@@ -39,6 +42,10 @@ function App() {
     setPostData( getPostMeta() );
   };
 
+  const handleChangeContent = (content) => {
+    setContent(content);
+  }
+
   return (
     <div className="central content w-full min-w-96 max-w-5xl mt-5 mx-auto px-3">
       {/* form.formtitle */}
@@ -54,7 +61,7 @@ function App() {
       <MetaForm metadata={postData} onChange={handleChangePostData} />
 
       {/* .editor */}
-      <Editor />
+      <Editor content={content} onChange={handleChangeContent} />
     </div>
   );
 }

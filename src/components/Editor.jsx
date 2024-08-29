@@ -4,16 +4,18 @@ import {
   markdownShortcutPlugin,
 } from "@mdxeditor/editor";
 
-function Editor() {
-  const handleChange = (...params) => {
-    console.log(params);
+function Editor({content, onChange}) {
+  const handleChange = (content) => {
+    console.log(content);
+
+    onChange(content);
   };
 
   return (
     <MDXEditor
       className="editor tablet:-translate-y-20"
       /* ref={ref} */
-      markdown="Markdown content"
+      markdown={content}
       onChange={handleChange}
       plugins={[headingsPlugin(), markdownShortcutPlugin()]}
     />
