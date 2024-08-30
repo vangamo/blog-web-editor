@@ -16,7 +16,18 @@ const getPostMeta = () => {
 };
 
 function App() {
-  const [credentials, setCredentials] = useState(null);
+  let savedCredentials = JSON.parse(localStorage.getItem('blog_editor_c'));
+  
+  if( !savedCredentials || !savedCredentials.ts || savedCredentials.ts < Date.now() ) {
+    savedCredentials = null;
+    localStorage.removeItem('blog_editor_c');
+  }
+  else {
+    savedCredentials.ts = Date.now() + 3600*1000;
+    localStorage.setItem('blog_editor_c', JSON.stringify(savedCredentials));
+  }
+
+  const [credentials, setCredentials] = useState(savedCredentials);
   const [postData, setPostData] = useState(getPostMeta());
   const [originalContent, setOriginalContent] = useState("");
   const [content, setContent] = useState("Markdown content");
@@ -81,35 +92,47 @@ ${content}
     setContent(content);
   };
 
-  const handleSubmitLogin = (urlRepo, token) => {
-    if (!urlRepo.includes("github.com")) {
-      if (urlRepo.startsWith("/")) {
-        urlRepo = "github.com";
+  const handleSubmitLogin = (credentials) => {
+
+    let {repoUrl, commitName, commitEmail, token, remember} = credentials;
+
+    if (!repoUrl.includes("github.com")) {
+      if (repoUrl.startsWith("/")) {
+        repoUrl = "github.com";
       } else {
-        console.error(`ERROR: Repo url not valid (${urlRepo})`);
+        console.error(`ERROR: Repo url not valid (${repoUrl})`);
         return;
       }
     }
 
-    if (urlRepo.startsWith("//")) {
-      urlRepo = urlRepo.replace("//", "https://");
+    if (repoUrl.startsWith("//")) {
+      repoUrl = repoUrl.replace("//", "https://");
     }
 
-    if (!urlRepo.startsWith("http")) {
-      urlRepo = "https://" + urlRepo;
+    if (!repoUrl.startsWith("http")) {
+      repoUrl = "https://" + repoUrl;
     }
 
-    if (urlRepo.startsWith("http://")) {
-      urlRepo = urlRepo.replace("http://", "https://");
+    if (repoUrl.startsWith("http://")) {
+      repoUrl = repoUrl.replace("http://", "https://");
     }
 
-    const [protocol, _, domain, user, repo] = urlRepo.split("/");
+    const [protocol, _, domain, user, repo] = repoUrl.split("/");
 
     setCredentials({
-      user: user,
-      repo: repo,
-      token: token,
+      githubUser: user,
+      githubRepo: repo,
+      githubToken: token,
+      commitName,
+      commitEmail
     });
+
+    if( remember ) {
+      localStorage.setItem('blog_editor_c', JSON.stringify({
+        ...credentials,
+        ts: Date.now() + 3600*1000
+      }));
+    }
   };
 
   const handleCancelLogin = () => {

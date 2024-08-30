@@ -3,20 +3,43 @@ import { useState } from "react";
 import ModalDialog from "./ModalDialog";
 
 function LoginDialog({ isShown, onSubmit, onCancel }) {
-  const [repo, setRepo] = useState("");
-  const [token, setToken] = useState("");
 
-  const handleInputRepo = (ev) => {
-    setRepo(ev.currentTarget.value);
+  const [ credentials, setCredentials ] = useState( {
+    repoUrl:'',
+    commitName: '',
+    commitEmail: '',
+    token: '',
+    remember: false
+  } );
+  const handleInput = (ev) => {
+    const inputIdentifier = ev.currentTarget.id
+    const inputValue = ev.currentTarget.value;
+
+    setCredentials(
+      {
+        ...credentials,
+        [inputIdentifier]: inputValue
+      }
+    )
   };
-  const handleInputToken = (ev) => {
-    setToken(ev.currentTarget.value);
-  };
+
+  const handleChange = (ev) => {
+    const inputIdentifier = ev.currentTarget.id
+    const inputChecked = ev.currentTarget.checked;
+
+    setCredentials(
+      {
+        ...credentials,
+        [inputIdentifier]: inputChecked
+      }
+    )
+  }
+
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
 
-    onSubmit(repo, token);
+    onSubmit(credentials);
   };
 
   return (
@@ -29,20 +52,56 @@ function LoginDialog({ isShown, onSubmit, onCancel }) {
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label
-            htmlFor="repo"
+            htmlFor="repoUrl"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Your repo
           </label>
           <input
             type="url"
-            name="repo"
-            id="repo"
+            name="repoUrl"
+            id="repoUrl"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             placeholder="name@company.com"
             required
-            value={repo}
-            onInput={handleInputRepo}
+            value={credentials.repoUrl}
+            onInput={handleInput}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="commitName"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Your commits name
+          </label>
+          <input
+            type="text"
+            name="commitName"
+            id="commitName"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            placeholder="name@company.com"
+            required
+            value={credentials.commitName}
+            onInput={handleInput}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="commitEmail"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Your commits email
+          </label>
+          <input
+            type="email"
+            name="commitEmail"
+            id="commitEmail"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            placeholder="name@company.com"
+            required
+            value={credentials.commitEmail}
+            onInput={handleInput}
           />
         </div>
         <div>
@@ -59,8 +118,8 @@ function LoginDialog({ isShown, onSubmit, onCancel }) {
             placeholder="ghp_••••••••"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
-            value={token}
-            onInput={handleInputToken}
+            value={credentials.token}
+            onInput={handleInput}
           />
         </div>
         <div className="flex justify-between">
@@ -68,9 +127,12 @@ function LoginDialog({ isShown, onSubmit, onCancel }) {
             <div className="flex items-center h-5">
               <input
                 id="remember"
+                name="remember"
                 type="checkbox"
                 value="remember"
                 className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                checked={credentials.remember}
+                onChange={handleChange}
               />
             </div>
             <label
