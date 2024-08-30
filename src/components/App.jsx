@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import TitleForm from "./TitleForm";
 import MetaForm from "./MetaForm";
@@ -14,6 +14,8 @@ const getPostMeta = () => {
     itinerary: "",
   };
 };
+
+// TODO: SHA should be refreshed frecuently because is the SHA of the last commit
 
 const getRootSha = async credentials => {
   const serverUrl = `https://api.github.com/repos/${credentials.githubUser}/${credentials.githubRepo}/branches/main`;
@@ -50,6 +52,35 @@ function App() {
   const [postData, setPostData] = useState(getPostMeta());
   const [originalContent, setOriginalContent] = useState("");
   const [content, setContent] = useState("Markdown content");
+
+  const [categories, setCategories] = useState([]);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchRepoContents = async () => {
+      const serverUrl = `https://api.github.com/repos/${credentials.githubUser}/${credentials.githubRepo}/git/trees/${credentials.repoRootSha}?ref=main&recursive=true`;
+
+      const data = await fetch(
+        serverUrl,
+        {
+          headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${credentials.githubToken}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+        }
+      ).then((response) => response.json());
+
+      setCategories(data.tree.filter((d) => d.type === "tree").map(d => ({name: d.path, sha: d.sha, mode: d.mode})));
+      setPosts(data.tree.filter((d) => !d.path.startsWith('README') && !d.path.endsWith('/README.md') && (d.type==='blob' && d.path.endsWith('md')) ).map(d => ({name: d.path, sha: d.sha, type: d.type, mode: d.mode})));
+    };
+
+    if( credentials && credentials.repoRootSha && !credentials.errors ) {
+      fetchRepoContents();
+    }
+  }, [credentials]);
+
+
 
   const handleSave = async (ev) => {
     ev.preventDefault();
