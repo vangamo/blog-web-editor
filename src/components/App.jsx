@@ -15,6 +15,25 @@ const getPostMeta = () => {
   };
 };
 
+const getRootSha = async credentials => {
+  const serverUrl = `https://api.github.com/repos/${credentials.githubUser}/${credentials.githubRepo}/branches/main`;
+
+  const data = await fetch(serverUrl, {
+    method: "GET",
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${credentials.githubToken}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  }).then((response) => response.json());
+
+  console.log('SHA', data);
+ 
+  credentials.repoRootSha = data.commit.sha;
+
+  return credentials;
+}
+
 function App() {
   let savedCredentials = JSON.parse(localStorage.getItem('blog_editor_c'));
   
@@ -50,13 +69,13 @@ itinerary:"${postData.itinerary}"
 ${content}
 `;
 
-    const serverUrl = `https://api.github.com/repos/${credentials.user}/${credentials.repo}/contents/${selectedCategory}/${postData.slug}.md`;
+    const serverUrl = `https://api.github.com/repos/${credentials.githubUser}/${credentials.githubRepo}/contents/${selectedCategory}/${postData.slug}.md`;
 
     const data = await fetch(serverUrl, {
       method: "PUT",
       headers: {
         Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${credentials.token}`,
+        Authorization: `Bearer ${credentials.githubToken}`,
         "X-GitHub-Api-Version": "2022-11-28",
         "Content-Type": "application/json",
       },
@@ -92,7 +111,7 @@ ${content}
     setContent(content);
   };
 
-  const handleSubmitLogin = (credentials) => {
+  const handleSubmitLogin = async (credentials) => {
 
     let {repoUrl, commitName, commitEmail, token, remember} = credentials;
 
@@ -119,13 +138,25 @@ ${content}
 
     const [protocol, _, domain, user, repo] = repoUrl.split("/");
 
-    setCredentials({
+    credentials = {
       githubUser: user,
       githubRepo: repo,
       githubToken: token,
       commitName,
       commitEmail
-    });
+    };
+
+    setCredentials(credentials);
+
+    if( remember ) {
+      localStorage.setItem('blog_editor_c', JSON.stringify({
+        ...credentials,
+        ts: Date.now() + 3600*1000
+      }));
+    }
+
+    credentials = await getRootSha(credentials);
+    setCredentials( credentials );
 
     if( remember ) {
       localStorage.setItem('blog_editor_c', JSON.stringify({
