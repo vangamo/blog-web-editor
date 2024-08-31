@@ -35,10 +35,10 @@ function TitleForm({
     <>
       {showPathDialog &&
       <ModalDialog title="Choose a new category" onCancel={handleClosePathDialog}>
-        <ul class="w-full md:w-96 mx-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <ul className="w-full md:w-96 mx-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           {pathList.map(path => (
-            <li class="border-b border-gray-200 dark:border-gray-600" key={path.sha} data-pathname={path.name} onClick={handleSelectPath}>
-              <div class="py-3 ps-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer hover:bg-gray-300 active:bg-blue-700 active:text-white">
+            <li className="border-b border-gray-200 dark:border-gray-600" key={path.sha} data-pathname={path.name} onClick={handleSelectPath}>
+              <div className="py-3 ps-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer hover:bg-gray-300 active:bg-blue-700 active:text-white">
                 {/* first:rounded-t-lg last:rounded-t-lg */}
                 {path.name}
               </div>
