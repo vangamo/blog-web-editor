@@ -23,7 +23,7 @@ import {
 import "@mdxeditor/editor/style.css";
 import "./Editor.css";
 
-function Editor({content, onChange}) {
+function Editor({ content, onChange }) {
   const handleChange = (content) => {
     console.log(content);
 
@@ -69,7 +69,7 @@ function Editor({content, onChange}) {
         }),
         linkDialogPlugin(),
       ]}
-    />    
+    />
   );
 }
 

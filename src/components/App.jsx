@@ -142,21 +142,22 @@ ${content}
 
     console.log(data);
 
-    if( data.commit ) {
-      setToastTitle('Content saved successfully');
+    if (data.commit) {
+      setToastTitle("Content saved successfully");
 
       const refreshedCredentials = {
         ...credentials,
         ts: Date.now() + 3600 * 1000,
-        repoRootSha: data.commit.sha
+        repoRootSha: data.commit.sha,
       };
       setCredentials(refreshedCredentials);
-      localStorage.setItem("blog_editor_c", JSON.stringify(refreshedCredentials));
-    }
-    else {
+      localStorage.setItem(
+        "blog_editor_c",
+        JSON.stringify(refreshedCredentials)
+      );
+    } else {
       setToastTitle(`Error (${data.message})`);
     }
-
   };
 
   const handleChangePostData = (metaProp, metaValue) => {

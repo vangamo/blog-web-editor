@@ -5,7 +5,7 @@
 }
 
 .editor .mdxeditor-root-contenteditable {
-  min-height: calc( 100% - 4rem );
+  min-height: calc(100% - 4rem);
 }
 
 @media screen and (900px <= width) {
@@ -14,7 +14,7 @@
   }
 
   .editor .mdxeditor-root-contenteditable {
-    min-height: calc( 100% + 4rem );
+    min-height: calc(100% + 4rem);
   }
 }
 
@@ -67,15 +67,15 @@
 }
 
 .editor {
-  font-family: hsl('Space Mono', monospace);
-  --font-monospace: 'Space Mono';
+  font-family: hsl("Space Mono", monospace);
+  --font-monospace: "Space Mono";
 }
 
 .editor h1 {
   font-size: 2em;
   font-weight: bold;
   border-bottom: solid 1px hsl(36 45% 60%);
-  padding-bottom: .25em;
+  padding-bottom: 0.25em;
   margin-bottom: 1em;
 }
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ModalDialog from './ModalDialog';
+import ModalDialog from "./ModalDialog";
 
 function TitleForm({
   slug,
@@ -23,29 +23,38 @@ function TitleForm({
   const handleSelectPath = (ev) => {
     const selectedPath = ev.currentTarget.dataset.pathname;
 
-    onChange('path', selectedPath);
+    onChange("path", selectedPath);
     setShowPathDialog(false);
   };
 
   const handleClosePathDialog = () => {
     setShowPathDialog(false);
-  }
+  };
 
   return (
     <>
-      {showPathDialog &&
-      <ModalDialog title="Choose a new category" onCancel={handleClosePathDialog}>
-        <ul className="w-full md:w-96 mx-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-          {pathList.map(path => (
-            <li className="border-b border-gray-200 dark:border-gray-600" key={path.sha} data-pathname={path.name} onClick={handleSelectPath}>
-              <div className="py-3 ps-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer hover:bg-gray-300 active:bg-blue-700 active:text-white">
-                {/* first:rounded-t-lg last:rounded-t-lg */}
-                {path.name}
-              </div>
-            </li>)
-          )}
-        </ul>
-      </ModalDialog>}
+      {showPathDialog && (
+        <ModalDialog
+          title="Choose a new category"
+          onCancel={handleClosePathDialog}
+        >
+          <ul className="w-full md:w-96 mx-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            {pathList.map((path) => (
+              <li
+                className="border-b border-gray-200 dark:border-gray-600"
+                key={path.sha}
+                data-pathname={path.name}
+                onClick={handleSelectPath}
+              >
+                <div className="py-3 ps-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer hover:bg-gray-300 active:bg-blue-700 active:text-white">
+                  {/* first:rounded-t-lg last:rounded-t-lg */}
+                  {path.name}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </ModalDialog>
+      )}
       <form className="formtitle" onSubmit={onClickSave}>
         <div className="formtitle__path px-2 text-xs text-gray-500 dark:text-gray-400 translate-y-1">
           {path}

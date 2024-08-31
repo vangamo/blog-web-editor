@@ -3,38 +3,32 @@ import { useState } from "react";
 import ModalDialog from "./ModalDialog";
 
 function LoginDialog({ isShown, onSubmit, onCancel }) {
-
-  const [ credentials, setCredentials ] = useState( {
-    repoUrl:'',
-    commitName: '',
-    commitEmail: '',
-    token: '',
-    remember: false
-  } );
+  const [credentials, setCredentials] = useState({
+    repoUrl: "",
+    commitName: "",
+    commitEmail: "",
+    token: "",
+    remember: false,
+  });
   const handleInput = (ev) => {
-    const inputIdentifier = ev.currentTarget.id
+    const inputIdentifier = ev.currentTarget.id;
     const inputValue = ev.currentTarget.value;
 
-    setCredentials(
-      {
-        ...credentials,
-        [inputIdentifier]: inputValue
-      }
-    )
+    setCredentials({
+      ...credentials,
+      [inputIdentifier]: inputValue,
+    });
   };
 
   const handleChange = (ev) => {
-    const inputIdentifier = ev.currentTarget.id
+    const inputIdentifier = ev.currentTarget.id;
     const inputChecked = ev.currentTarget.checked;
 
-    setCredentials(
-      {
-        ...credentials,
-        [inputIdentifier]: inputChecked
-      }
-    )
-  }
-
+    setCredentials({
+      ...credentials,
+      [inputIdentifier]: inputChecked,
+    });
+  };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
