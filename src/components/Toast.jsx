@@ -10,14 +10,14 @@ function Toast({ isShown = true, title, onClose }) {
 
   useEffect(() => {
     timeout = setTimeout(() => {
-      setClassAnimation("fade-out");
+      setClassAnimation("animate-fade-out");
     }, 4000);
   }, []);
 
   const handleClose = () => {
     clearTimeout(timeout);
 
-    setClassAnimation("fade-out");
+    setClassAnimation("animate-fade-out");
   };
 
   const handleAnimationEnd = () => {
