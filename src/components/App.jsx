@@ -4,6 +4,7 @@ import TitleForm from "./TitleForm";
 import MetaForm from "./MetaForm";
 import Editor from "./Editor";
 import LoginDialog from "./LoginDialog";
+import Toast from "./Toast";
 
 const getPostMeta = () => {
   return {
@@ -17,7 +18,7 @@ const getPostMeta = () => {
 
 // TODO: SHA should be refreshed frecuently because is the SHA of the last commit
 
-const getRootSha = async credentials => {
+const getRootSha = async (credentials) => {
   const serverUrl = `https://api.github.com/repos/${credentials.githubUser}/${credentials.githubRepo}/branches/main`;
 
   const data = await fetch(serverUrl, {
@@ -29,23 +30,26 @@ const getRootSha = async credentials => {
     },
   }).then((response) => response.json());
 
-  console.log('SHA', data);
- 
+  console.log("SHA", data);
+
   credentials.repoRootSha = data.commit.sha;
 
   return credentials;
-}
+};
 
 function App() {
-  let savedCredentials = JSON.parse(localStorage.getItem('blog_editor_c'));
-  
-  if( !savedCredentials || !savedCredentials.ts || savedCredentials.ts < Date.now() ) {
+  let savedCredentials = JSON.parse(localStorage.getItem("blog_editor_c"));
+
+  if (
+    !savedCredentials ||
+    !savedCredentials.ts ||
+    savedCredentials.ts < Date.now()
+  ) {
     savedCredentials = null;
-    localStorage.removeItem('blog_editor_c');
-  }
-  else {
-    savedCredentials.ts = Date.now() + 3600*1000;
-    localStorage.setItem('blog_editor_c', JSON.stringify(savedCredentials));
+    localStorage.removeItem("blog_editor_c");
+  } else {
+    savedCredentials.ts = Date.now() + 3600 * 1000;
+    localStorage.setItem("blog_editor_c", JSON.stringify(savedCredentials));
   }
 
   const [credentials, setCredentials] = useState(savedCredentials);
@@ -56,31 +60,47 @@ function App() {
   const [paths, setPaths] = useState([]);
   const [posts, setPosts] = useState([]);
 
+  const [toastTitle, setToastTitle] = useState(null);
+
   useEffect(() => {
     const fetchRepoContents = async () => {
       const serverUrl = `https://api.github.com/repos/${credentials.githubUser}/${credentials.githubRepo}/git/trees/${credentials.repoRootSha}?ref=main&recursive=true`;
 
-      const data = await fetch(
-        serverUrl,
-        {
-          headers: {
-            Accept: "application/vnd.github+json",
-            Authorization: `Bearer ${credentials.githubToken}`,
-            "X-GitHub-Api-Version": "2022-11-28",
-          },
-        }
-      ).then((response) => response.json());
+      const data = await fetch(serverUrl, {
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${credentials.githubToken}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      }).then((response) => response.json());
 
-      setPaths(data.tree.filter((d) => d.type === "tree").map(d => ({name: d.path, sha: d.sha, mode: d.mode})));
-      setPosts(data.tree.filter((d) => !d.path.startsWith('README') && !d.path.endsWith('/README.md') && (d.type==='blob' && d.path.endsWith('md')) ).map(d => ({name: d.path, sha: d.sha, type: d.type, mode: d.mode})));
+      setPaths(
+        data.tree
+          .filter((d) => d.type === "tree")
+          .map((d) => ({ name: d.path, sha: d.sha, mode: d.mode }))
+      );
+      setPosts(
+        data.tree
+          .filter(
+            (d) =>
+              !d.path.startsWith("README") &&
+              !d.path.endsWith("/README.md") &&
+              d.type === "blob" &&
+              d.path.endsWith("md")
+          )
+          .map((d) => ({
+            name: d.path,
+            sha: d.sha,
+            type: d.type,
+            mode: d.mode,
+          }))
+      );
     };
 
-    if( credentials && credentials.repoRootSha && !credentials.errors ) {
+    if (credentials && credentials.repoRootSha && !credentials.errors) {
       fetchRepoContents();
     }
   }, [credentials]);
-
-
 
   const handleSave = async (ev) => {
     ev.preventDefault();
@@ -143,8 +163,7 @@ ${content}
   };
 
   const handleSubmitLogin = async (credentials) => {
-
-    let {repoUrl, commitName, commitEmail, token, remember} = credentials;
+    let { repoUrl, commitName, commitEmail, token, remember } = credentials;
 
     if (!repoUrl.includes("github.com")) {
       if (repoUrl.startsWith("/")) {
@@ -174,31 +193,41 @@ ${content}
       githubRepo: repo,
       githubToken: token,
       commitName,
-      commitEmail
+      commitEmail,
     };
 
     setCredentials(credentials);
 
-    if( remember ) {
-      localStorage.setItem('blog_editor_c', JSON.stringify({
-        ...credentials,
-        ts: Date.now() + 3600*1000
-      }));
+    if (remember) {
+      localStorage.setItem(
+        "blog_editor_c",
+        JSON.stringify({
+          ...credentials,
+          ts: Date.now() + 3600 * 1000,
+        })
+      );
     }
 
     credentials = await getRootSha(credentials);
-    setCredentials( credentials );
+    setCredentials(credentials);
 
-    if( remember ) {
-      localStorage.setItem('blog_editor_c', JSON.stringify({
-        ...credentials,
-        ts: Date.now() + 3600*1000
-      }));
+    if (remember) {
+      localStorage.setItem(
+        "blog_editor_c",
+        JSON.stringify({
+          ...credentials,
+          ts: Date.now() + 3600 * 1000,
+        })
+      );
     }
   };
 
   const handleCancelLogin = () => {
     setCredentials(false);
+  };
+
+  const handleCloseToast = () => {
+    setToastTitle(null);
   };
 
   return (
@@ -228,6 +257,7 @@ ${content}
         {/* .editor */}
         <Editor content={content} onChange={handleChangeContent} />
       </div>
+      {toastTitle && <Toast title={toastTitle} onClose={handleCloseToast} />}
     </>
   );
 }
