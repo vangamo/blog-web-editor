@@ -53,7 +53,7 @@ function App() {
   const [originalContent, setOriginalContent] = useState("");
   const [content, setContent] = useState("Markdown content");
 
-  const [categories, setCategories] = useState([]);
+  const [paths, setPaths] = useState([]);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function App() {
         }
       ).then((response) => response.json());
 
-      setCategories(data.tree.filter((d) => d.type === "tree").map(d => ({name: d.path, sha: d.sha, mode: d.mode})));
+      setPaths(data.tree.filter((d) => d.type === "tree").map(d => ({name: d.path, sha: d.sha, mode: d.mode})));
       setPosts(data.tree.filter((d) => !d.path.startsWith('README') && !d.path.endsWith('/README.md') && (d.type==='blob' && d.path.endsWith('md')) ).map(d => ({name: d.path, sha: d.sha, type: d.type, mode: d.mode})));
     };
 
@@ -214,6 +214,8 @@ ${content}
         {/* form.formtitle */}
         <TitleForm
           slug={postData.slug}
+          path={postData.path}
+          pathList={paths}
           onChange={handleChangePostData}
           onClickSave={handleSave}
           onClicknUndo={handleClickUndo}
