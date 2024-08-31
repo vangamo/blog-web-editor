@@ -144,3 +144,14 @@
 .placeholder-opacity-0:focus::placeholder {
   opacity: 100;
 }
+
+
+.fade-out {
+  animation: fade-out 0.4s ease-in forwards;
+  transition-behavior: allow-discrete;
+}
+
+@keyframes fade-out {
+  100% { opacity: 0; display: none }
+}
+
