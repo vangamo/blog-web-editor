@@ -6,6 +6,8 @@ import Editor from "./Editor";
 import LoginDialog from "./LoginDialog";
 import Toast from "./Toast";
 
+const TOKEN_DURATION = 24 * 3600 * 1000;   // 24hr
+
 const getPostMeta = () => {
   return {
     slug: "",
@@ -48,7 +50,7 @@ function App() {
     savedCredentials = null;
     localStorage.removeItem("blog_editor_c");
   } else {
-    savedCredentials.ts = Date.now() + 3600 * 1000;
+    savedCredentials.ts = Date.now() + TOKEN_DURATION;
     localStorage.setItem("blog_editor_c", JSON.stringify(savedCredentials));
   }
 
@@ -147,7 +149,7 @@ ${content}
 
       const refreshedCredentials = {
         ...credentials,
-        ts: Date.now() + 3600 * 1000,
+        ts: Date.now() + TOKEN_DURATION,
         repoRootSha: data.commit.sha,
       };
       setCredentials(refreshedCredentials);
@@ -220,7 +222,7 @@ ${content}
         "blog_editor_c",
         JSON.stringify({
           ...credentials,
-          ts: Date.now() + 3600 * 1000,
+          ts: Date.now() + TOKEN_DURATION,
         })
       );
     }
@@ -233,7 +235,7 @@ ${content}
         "blog_editor_c",
         JSON.stringify({
           ...credentials,
-          ts: Date.now() + 3600 * 1000,
+          ts: Date.now() + TOKEN_DURATION,
         })
       );
     }
